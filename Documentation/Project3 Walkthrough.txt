@@ -1,0 +1,79 @@
+Install AWS CLI & AWS EB CLI
+1- create IAM user (admin) and give it adminstration security group & save its credentials
+
+2- in terminal: $ aws configure
+		and enter credentials, & region = us-east-1 & last one is empty
+
+/////////////////////////////////// Frontend //////////////////////////////////////
+3- create S3 bucket 
+   (if through terminal: $ aws s3api create-bucket --bucket bucket_name --region us-east-1)
+   & enable static web hosting & set directory to index.html
+   & add policy:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::project3-udagram/*"
+            ]
+        }
+    ]
+}
+   
+S3 link: http://project3-udagram.s3-website-us-east-1.amazonaws.com/	(gives 404 as no code yet)
+
+to upload your frontend:
+$ npm run build
+$ aws s3 cp --recursive --acl public-read ./www s3://project3-udagram/
+now www folder content will be uploaded to our S3 bucket (need ACL to be enabled)
+
+now our frontend is ready and can be accessed through the link
+(but with an error as the backend environment link is not set)
+
+/////////////////////////////////// Database //////////////////////////////////////
+4- Create database from aws rds, username: postgre, password: postgres
+	& ensure public access & add all traffic in inbound rules
+	test with postgres://postgres:postgres@database-project3.c4kr9mdibjn2.us-east-1.rds.amazonaws.com:5432/postgres
+	in postbird (Successfully connected!)
+
+/////////////////////////////////// Backend //////////////////////////////////////
+5- in root folder, run: $ eb init udagram-api --platform node.js --region us-east-1
+	this will create configuration file & folder for EB
+   now to create the EB environment:
+	$ eb create --sample project3-api-dev
+   now we created an enivronment project3-api-dev & an application udagram-api
+	(environment node version must match the app version_
+
+   application link: http://udagram-karim.us-east-1.elasticbeanstalk.com/
+	$ eb use udagram-api-dev
+   in git bash run: $ npm run build		(in server root)
+	this will generate the Archive.zip file to be uploaded to EB
+	to upload it, run: 
+	$ eb use udagram-api-dev
+	$ eb deploy
+
+now lets pass the environment variables:
+eb setenv POSTGRES_HOST=database-project3.c4kr9mdibjn2.us-east-1.rds.amazonaws.com POSTGRES_USERNAME=postgres POSTGRES_DB=postgres POSTGRES_PASSWORD=postgres DB_PORT=5432 PORT=3300 AWS_REGION=us-east-1 AWS_PROFILE=default AWS_BUCKET=s3://project3-udagram URL=http://udagram-karim.us-east-1.elasticbeanstalk.com/ AWS_ACCESS_KEY_ID=AKIA4BIWKOU6ULQC6H7G AWS_SECRET_ACCESS_KEY=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 JWT_SECRET=secret_token
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
