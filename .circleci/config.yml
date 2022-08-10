@@ -24,10 +24,10 @@ jobs:
           name: Install API Dependencies
           command: |
             npm run api:install    
-      - run:
-          name: Front-End Lint
-          command: |
-            npm run frontend:lint
+      # - run:
+      #     name: Front-End Lint
+      #     command: |
+      #       npm run frontend:lint
   # deploy step will run only after manual approval
   deploy:
     docker:
