@@ -49,7 +49,7 @@ jobs:
           command: |
             npm run eb:init && npm run eb:setEnv
       - run:
-          name: Build & Deploy frontend API
+          name: Build & Deploy backend API
           command: |
             npm run api:deploy
           
