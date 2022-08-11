@@ -22,7 +22,7 @@ If we found any issues, then we need to fix it first, otherwise we can start our
    now we can deploy our api to AWS EB.
    API link: http://udagram-karim.us-east-1.elasticbeanstalk.com/
    
-3- Create S3 bucket for hosting our frontend, enable static web hosting, set directory to index.html, and update our policy.
+4- Create S3 bucket for hosting our frontend, enable static web hosting, set directory to index.html, and update our policy.
    S3 link: S3 link: http://project3-udagram.s3-website-us-east-1.amazonaws.com/
 
 
