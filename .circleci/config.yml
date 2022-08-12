@@ -44,10 +44,10 @@ jobs:
           command: |
             npm run frontend:deploy
       # pass env variables, then deploy api
-      - run:
-          name: init & setEnv of EB
-          command: |
-            npm run eb:init && npm run eb:setEnv
+      # - run:
+      #     name: init & setEnv of EB
+      #     command: |
+      #       npm run eb:init && npm run eb:setEnv
       - run:
           name: Build & Deploy backend API
           command: |
